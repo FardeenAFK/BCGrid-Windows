@@ -17,6 +17,6 @@ flip to the next shot one by one, with six reveal patterns, grid lines and a glo
 | `BC_Grid_Setup.exe` | Installer (recommended) |
 | `BCGrid.aex` | The plugin on its own, for manual install |
 | `install.bat` | Copies `BCGrid.aex` into place (run as administrator, next to the .aex) |
-| `Instalar BC©Grid (Windows).pdf` | Install guide in Spanish |
+| `Instalar.BC.Grid.Windows.pdf` | Install guide in Spanish |
 
 Needs Windows 10/11 64-bit and Premiere Pro 2022 or newer.
