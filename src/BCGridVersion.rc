@@ -2,8 +2,8 @@
 #include <winres.h>
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,1
- PRODUCTVERSION 1,0,0,1
+ FILEVERSION 1,1,0,1
+ PRODUCTVERSION 1,1,0,1
  FILEFLAGSMASK 0x3fL
  FILEFLAGS 0x0L
  FILEOS 0x40004L
@@ -12,20 +12,20 @@ VS_VERSION_INFO VERSIONINFO
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN
-        BLOCK "0c0a04e4"
+        BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "BillyCreative"
-            VALUE "FileDescription", "BC©Grid - transición en cuadrícula para Premiere Pro"
-            VALUE "FileVersion", "1.0.0.1"
+            VALUE "FileDescription", "BC©Grid - grid transition for Premiere Pro"
+            VALUE "FileVersion", "1.1.0.1"
             VALUE "InternalName", "BCGrid"
             VALUE "LegalCopyright", "© 2026 BillyCreative"
             VALUE "OriginalFilename", "BCGrid.aex"
             VALUE "ProductName", "BC©Grid"
-            VALUE "ProductVersion", "1.0"
+            VALUE "ProductVersion", "1.1"
         END
     END
     BLOCK "VarFileInfo"
     BEGIN
-        VALUE "Translation", 0xc0a, 1252
+        VALUE "Translation", 0x409, 1252
     END
 END

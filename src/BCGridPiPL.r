@@ -43,7 +43,7 @@ resource 'PiPL' (16000) {
 		},
 		/* [8] */
 		AE_Effect_Version {
-			524289	/* 1.0 build 1 */
+			557057	/* 1.1 build 1 */
 		},
 		/* [9] */
 		AE_Effect_Info_Flags {

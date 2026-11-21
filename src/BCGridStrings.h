@@ -1,4 +1,4 @@
-// BC(c)Grid - UI strings.
+// BC(c)Grid - UI strings (English).
 // After Effects / Premiere read parameter names in the platform's legacy code page:
 // MacRoman on macOS, Windows-1252 on Windows. Accented letters are escaped per platform
 // so this file stays plain ASCII.
@@ -21,21 +21,23 @@
 #define BCG_SUPPORT_URL    "https://billycreative.com"
 
 #define BCG_NAME_DISPLAY   "BC" BCG_COPY "Grid"
-#define BCG_DESCRIPTION    "Transici" BCG_o_ "n en cuadr" BCG_i_ "cula por BillyCreative."
+#define BCG_DESCRIPTION    "Grid transition by BillyCreative."
 
-#define STR_SECOND_CLIP    "Segundo clip"
-#define STR_PROGRESS       "Progreso"
-#define STR_COLUMNS        "Columnas"
-#define STR_ROWS           "Filas"
-#define STR_LINES          "L" BCG_i_ "neas"
-#define STR_SHOW           "Mostrar"
-#define STR_THICKNESS      "Grosor de l" BCG_i_ "neas (px)"
-#define STR_LINE_COLOR     "Color de l" BCG_i_ "neas"
-#define STR_PATTERN        "Patr" BCG_o_ "n"
-#define STR_PATTERN_ITEMS  "Aleatorio|Filas|Columnas|Diagonal|Desde el centro|Hacia el centro"
-#define STR_SEED           "Semilla aleatoria"
-#define STR_FLASH          "Destello"
-#define STR_ENABLED        "Activado"
-#define STR_FLASH_COLOR    "Color del destello"
-#define STR_FLASH_AMOUNT   "Intensidad del destello"
-#define STR_FLASH_FRAMES   "Fotogramas del destello"
+// English UI. Only display names changed from v1.0; parameter IDs are untouched,
+// so projects made with the Spanish version still open with their settings.
+#define STR_SECOND_CLIP    "Second clip"
+#define STR_PROGRESS       "Progress"
+#define STR_COLUMNS        "Columns"
+#define STR_ROWS           "Rows"
+#define STR_LINES          "Grid lines"
+#define STR_SHOW           "Show"
+#define STR_THICKNESS      "Line thickness (px)"
+#define STR_LINE_COLOR     "Line color"
+#define STR_PATTERN        "Pattern"
+#define STR_PATTERN_ITEMS  "Random|Rows|Columns|Diagonal|From center|To center"
+#define STR_SEED           "Random seed"
+#define STR_FLASH          "Flash"
+#define STR_ENABLED        "On"
+#define STR_FLASH_COLOR    "Flash color"
+#define STR_FLASH_AMOUNT   "Flash intensity"
+#define STR_FLASH_FRAMES   "Flash length (frames)"

@@ -1,6 +1,6 @@
 ﻿; BC©Grid - Windows installer (Inno Setup 6.3+)
 ; © 2026 BillyCreative
-#define AppVer "1.0"
+#define AppVer "1.1"
 
 [Setup]
 AppId={{6C1E7A52-3B7F-4C59-9E7B-0B8C2A6E4D11}
@@ -23,15 +23,15 @@ Compression=lzma2
 SolidCompression=yes
 WizardStyle=modern
 UninstallDisplayName=BC©Grid (BillyCreative)
-VersionInfoVersion=1.0.0.1
+VersionInfoVersion=1.1.0.1
 VersionInfoCompany=BillyCreative
-VersionInfoDescription=Instalador de BC©Grid para Premiere Pro
+VersionInfoDescription=BC©Grid installer for Premiere Pro
 
 [Languages]
-Name: "es"; MessagesFile: "compiler:Languages\Spanish.isl"
+Name: "en"; MessagesFile: "compiler:Default.isl"
 
 [Messages]
-es.WelcomeLabel2=Esto instalará la transición BC©Grid para Adobe Premiere Pro (y After Effects).%n%nCierra Premiere Pro antes de continuar.
+en.WelcomeLabel2=This will install the BC©Grid transition for Adobe Premiere Pro (it also works in After Effects).%n%nPlease close Premiere Pro and After Effects before continuing.
 
 [Files]
 Source: "..\build\BCGrid.aex"; DestDir: "{app}"; Flags: ignoreversion
@@ -53,7 +53,7 @@ begin
   if CurPageID = wpReady then
     while IsRunning('Adobe Premiere Pro.exe') or IsRunning('AfterFX.exe') do
     begin
-      if MsgBox('Premiere Pro o After Effects está abierto. Ciérralo y pulsa Aceptar.', mbInformation, MB_OKCANCEL) = IDCANCEL then
+      if MsgBox('Premiere Pro or After Effects is still open. Close it, then click OK.', mbInformation, MB_OKCANCEL) = IDCANCEL then
       begin
         Result := False;
         Exit;

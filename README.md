@@ -17,12 +17,12 @@ shot at its own moment, with thin grid lines and a quick glow as each tile turns
 
 | Pattern | What happens |
 |---|---|
-| **Aleatorio** | Tiles flip in a random order. Change the seed for a different order |
-| **Filas** | Row by row, left to right, top to bottom |
-| **Columnas** | Column by column, top to bottom, left to right |
+| **Random** | Tiles flip in a random order. Change the seed for a different order |
+| **Rows** | Row by row, left to right, top to bottom |
+| **Columns** | Column by column, top to bottom, left to right |
 | **Diagonal** | A wave from the top-left corner to the bottom-right |
-| **Desde el centro** | Starts in the middle and spreads out to the edges |
-| **Hacia el centro** | Starts at the edges and closes in on the middle |
+| **From center** | Starts in the middle and spreads out to the edges |
+| **To center** | Starts at the edges and closes in on the middle |
 
 ## Download and install
 
@@ -34,7 +34,7 @@ shot at its own moment, with thin grid lines and a quick glow as each tile turns
 4. Open Premiere Pro, then drag **Video Transitions → BillyCreative → BC©Grid** onto the cut between
    two clips.
 
-A Spanish install guide (PDF) is attached to every release too.
+A one-page install guide (PDF) is attached to every release too.
 
 **Without the installer:** download `BCGrid.aex` from the release and copy it to
 `C:\Program Files\Adobe\Common\Plug-ins\7.0\MediaCore\BillyCreative\` (create the folder), or run
@@ -45,7 +45,14 @@ A Spanish install guide (PDF) is attached to every release too.
 ### Requirements
 
 - Windows 10 or 11, 64-bit (Intel or AMD)
-- Adobe Premiere Pro 2022 or newer. The effect also shows up in After Effects (Effects → BillyCreative)
+- Adobe Premiere Pro 2022 or newer. It also works in After Effects (see below)
+
+### Using it in After Effects
+
+1. Put two clips in a comp, one layer above the other, and select the top layer.
+2. In **Effects & Presets**, search **BC©Grid** and double-click it.
+3. Set **Second clip** to the other layer and hide that layer (eye icon).
+4. Keyframe **Progress** from 0 % to 100 %.
 
 ## Settings
 
@@ -53,18 +60,18 @@ Select the transition on the timeline and open **Effect Controls**:
 
 | Setting | Default | What it does |
 |---|---|---|
-| Columnas / Filas | 3 / 3 | Grid size, 1 to 100 each way |
-| Líneas: Mostrar | on | Draws the grid lines |
-| Grosor de líneas (px) | 4 | Line thickness |
-| Color de líneas | black | Line colour |
-| Patrón | Aleatorio | The order the tiles flip in (see above) |
-| Semilla aleatoria | 1 | Shuffles the random order |
-| Destello: Activado | on | Glow on each tile as it flips |
-| Color del destello | white | Glow colour |
-| Intensidad del destello | 80 % | Glow strength |
-| Fotogramas del destello | 4 | How many frames the glow lasts |
-| Progreso | 0 % | Only for After Effects, where you keyframe it from 0 % to 100 %. In Premiere the transition runs by itself over its length |
-| Segundo clip | — | Only for After Effects: the layer to reveal. Premiere fills it in for you |
+| Columns / Rows | 3 / 3 | Grid size, 1 to 100 each way |
+| Grid lines: Show | on | Draws the grid lines |
+| Line thickness (px) | 4 | Line thickness |
+| Line color | black | Line colour |
+| Pattern | Random | The order the tiles flip in (see above) |
+| Random seed | 1 | Shuffles the random order |
+| Flash: On | on | Glow on each tile as it flips |
+| Flash color | white | Glow colour |
+| Flash intensity | 80 % | Glow strength |
+| Flash length (frames) | 4 | How many frames the glow lasts |
+| Progress | 0 % | Only for After Effects, where you keyframe it from 0 % to 100 %. In Premiere the transition runs by itself over its length |
+| Second clip | — | Only for After Effects: the layer to reveal. Premiere fills it in for you |
 
 Change the transition's length on the timeline to make it faster or slower. 8-bit and 16-bit
 sequences are supported.
@@ -88,9 +95,9 @@ The plugin is plain C++ on Adobe's effect SDK.
 |---|---|
 | `src/BCGridCore.h` | Tile order and drawing, no Adobe types (portable and testable) |
 | `src/BCGrid.cpp` | Effect entry point, settings, Premiere transition hookup |
-| `src/BCGridStrings.h` | Spanish UI text |
+| `src/BCGridStrings.h` | UI text |
 | `src/BCGridPiPL.r` | Plugin resource (contains a raw 0xA9 byte; keep the encoding) |
-| `installer/` | Inno Setup script and `install.bat` |
+| `installer/` | Inno Setup script (English) and `install.bat` |
 | `test/render_test.cpp` | Self-checks for the core |
 | `test/make_preview.cpp` | Renders the preview frames used above |
 

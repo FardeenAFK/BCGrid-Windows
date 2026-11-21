@@ -28,7 +28,7 @@
 #include "BCGridStrings.h"
 
 #define BCG_MAJOR 1
-#define BCG_MINOR 0
+#define BCG_MINOR 1
 #define BCG_BUG 0
 #define BCG_STAGE PF_Stage_DEVELOP
 #define BCG_BUILD 1
