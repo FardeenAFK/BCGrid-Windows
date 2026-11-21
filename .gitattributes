@@ -1,0 +1,6 @@
+* text=auto
+*.bat text eol=crlf
+*.iss -text
+*.r -text
+*.rc -text
+*.pdf binary
