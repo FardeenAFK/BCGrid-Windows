@@ -1,0 +1,118 @@
+name: Build BC¬©Grid for Windows
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-2022
+    env:
+      HAS_SDK_KEY: ${{ secrets.SDK_DEPLOY_KEY != '' }}
+    steps:
+      - uses: actions/checkout@v5
+
+      # Adobe's After Effects SDK may not be redistributed, so it lives in a private repository
+      # (read with a deploy key) or behind a private link in the AE_SDK_URL secret.
+      - name: Fetch the After Effects SDK (private repository)
+        if: env.HAS_SDK_KEY == 'true'
+        uses: actions/checkout@v5
+        with:
+          repository: FardeenAFK/BCGrid-sdk
+          ssh-key: ${{ secrets.SDK_DEPLOY_KEY }}
+          path: sdk/private
+          lfs: true
+
+      - name: Prepare the After Effects SDK
+        shell: pwsh
+        env:
+          AE_SDK_URL: ${{ secrets.AE_SDK_URL }}
+        run: |
+          function Find-Sdk { Get-ChildItem sdk -Recurse -Filter AE_Effect.h -ErrorAction SilentlyContinue | Select-Object -First 1 }
+          function Expand-All {
+            for ($i = 0; $i -lt 3 -and -not (Find-Sdk); $i++) {
+              Get-ChildItem sdk -Recurse -Filter *.zip | ForEach-Object {
+                Expand-Archive $_.FullName -DestinationPath (Join-Path $_.DirectoryName $_.BaseName) -Force
+              }
+            }
+          }
+          Expand-All
+          if (-not (Find-Sdk) -and $env:AE_SDK_URL) {
+            Invoke-WebRequest -Uri $env:AE_SDK_URL -OutFile sdk\aesdk.zip
+            Expand-All
+          }
+          $h = Find-Sdk
+          if (-not $h) {
+            Write-Error "After Effects SDK not available. See sdk/README.md."
+            exit 1
+          }
+          Write-Host "SDK headers: $($h.DirectoryName)"
+
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+
+      - name: Build BCGrid.aex
+        shell: cmd
+        run: build.bat
+
+      - name: Check the plugin
+        shell: pwsh
+        run: |
+          $exports = dumpbin /nologo /exports build\BCGrid.aex | Out-String
+          foreach ($sym in "EffectMain", "PluginDataEntryFunction2") {
+            if ($exports -notmatch $sym) { Write-Error "Missing export $sym"; exit 1 }
+          }
+          $deps = dumpbin /nologo /dependents build\BCGrid.aex | Out-String
+          if ($deps -match "VCRUNTIME|MSVCP") { Write-Error "Plugin needs the VC++ runtime; it must be linked statically."; exit 1 }
+          $bytes = [IO.File]::ReadAllBytes("build\BCGrid.aex")
+          $text = [Text.Encoding]::GetEncoding(28591).GetString($bytes)
+          foreach ($needle in "BC$([char]0xA9)Grid", "BillyCreative Grid Transition", "EffectMain") {
+            if (-not $text.Contains($needle)) { Write-Error "PiPL check failed: '$needle' not in BCGrid.aex"; exit 1 }
+          }
+          Write-Host "Exports, dependencies and PiPL look right."
+          Write-Host $deps
+
+      - name: Build installer
+        shell: pwsh
+        run: |
+          $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
+          if (-not (Test-Path $iscc)) { choco install innosetup -y --no-progress | Out-Null }
+          & $iscc installer\BCGrid.iss
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          Copy-Item build\BCGrid.aex dist\
+          Copy-Item installer\install.bat dist\
+          Copy-Item "docs\*.pdf" dist\
+          Get-ChildItem dist | Format-Table Name, Length
+
+      - name: Test the installer
+        shell: pwsh
+        run: |
+          $p = Start-Process dist\BC_Grid_Setup.exe -ArgumentList "/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART" -Wait -PassThru
+          if ($p.ExitCode -ne 0) { Write-Error "Installer exit code $($p.ExitCode)"; exit 1 }
+          $dest = "$env:ProgramFiles\Adobe\Common\Plug-ins\7.0\MediaCore\BillyCreative\BCGrid.aex"
+          if (-not (Test-Path $dest)) { Write-Error "Installer did not place $dest"; exit 1 }
+          $un = Get-ChildItem "$env:ProgramFiles\Adobe\Common\Plug-ins\7.0\MediaCore\BillyCreative" -Filter "unins*.exe" | Select-Object -First 1
+          $p = Start-Process $un.FullName -ArgumentList "/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART" -Wait -PassThru
+          for ($i = 0; $i -lt 30 -and (Test-Path $dest); $i++) { Start-Sleep -Seconds 1 }
+          if (Test-Path $dest) { Write-Error "Uninstaller left $dest behind"; exit 1 }
+          Write-Host "Install and uninstall both work."
+
+      - uses: actions/upload-artifact@v5
+        with:
+          name: BC_Grid_Windows
+          path: dist/
+
+      - name: Publish release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          name: BC¬©Grid ${{ github.ref_name }} for Windows
+          body_path: docs/RELEASE_NOTES.md
+          files: dist/*
