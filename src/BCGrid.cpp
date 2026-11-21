@@ -3,6 +3,12 @@
 // match name, parameter IDs and render behaviour, so projects open on both platforms.
 
 #include "AEConfig.h"
+#ifdef AE_OS_WIN
+  #ifndef NOMINMAX
+    #define NOMINMAX  // keep std::min / std::max usable
+  #endif
+  #include <Windows.h>
+#endif
 #include "entry.h"
 #include "AE_Effect.h"
 #include "AE_EffectCB.h"

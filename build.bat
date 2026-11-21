@@ -38,7 +38,7 @@ rc /nologo /c 1252 /fo "%OUT%\BCGridPiPL.res" "%OUT%\BCGridPiPL.rc" || goto :fai
 rc /nologo /c 1252 /fo "%OUT%\BCGridVersion.res" "%ROOT%src\BCGridVersion.rc" || goto :fail
 
 rem --- compile and link (static CRT: no Visual C++ redistributable needed) ---
-cl /nologo /c /O2 /MT /EHsc /std:c++17 /W3 /wd4068 /D "MSWindows" /D "WIN32" /D "_WINDOWS" /D "_CRT_SECURE_NO_WARNINGS" /I "%HDR%" /I "%HDR%\SP" /I "%EX%\Util" /I "%ROOT%src" /Fo"%OUT%\BCGrid.obj" "%ROOT%src\BCGrid.cpp" || goto :fail
+cl /nologo /c /O2 /MT /EHsc /std:c++17 /W3 /wd4068 /D "MSWindows" /D "WIN32" /D "_WINDOWS" /D "_CRT_SECURE_NO_WARNINGS" /I "%HDR%" /I "%HDR%\SP" /I "%HDR%\Win" /I "%EX%\Resources" /I "%EX%\Util" /I "%ROOT%src" /Fo"%OUT%\BCGrid.obj" "%ROOT%src\BCGrid.cpp" || goto :fail
 link /nologo /DLL /MACHINE:X64 /OUT:"%OUT%\BCGrid.aex" "%OUT%\BCGrid.obj" "%OUT%\BCGridPiPL.res" "%OUT%\BCGridVersion.res" kernel32.lib user32.lib || goto :fail
 
 echo [BCGrid] Built %OUT%\BCGrid.aex
